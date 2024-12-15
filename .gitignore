@@ -160,3 +160,18 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+videos/
+pretrained/
+.env
+src/get_categorized_score.py
+src/parse_result.py
+results
+src/generate_lib/internvideo.py
+src/generate_lib/llava_next.py
+src/generate_lib/phi.py
+src/generate_lib/VideoLLaMA2
+src/generate_lib/LLaVA_NeXT
+src/generate_lib/Video_CCAM
+src/generate_lib/Video_LLaVA
+src/generate_lib/VILA
