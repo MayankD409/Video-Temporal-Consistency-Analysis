@@ -22,13 +22,13 @@ def generate_response(model_name: str,
     model_path = os.path.join("./pretrained", model_name)
 
     model = Qwen2VLForConditionalGeneration.from_pretrained(
-        model_path, 
+        "Qwen/Qwen2-VL-2B-Instruct", 
         torch_dtype=torch.bfloat16, 
         device_map="auto",
         attn_implementation="flash_attention_2"
     )
 
-    processor = AutoProcessor.from_pretrained(model_path)
+    processor = AutoProcessor.from_pretrained("Qwen/Qwen2-VL-2B-Instruct")
 
 
 

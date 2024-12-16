@@ -29,9 +29,6 @@ from llava.mm_utils import KeywordsStoppingCriteria, get_model_name_from_path, p
 from llava.model.builder import load_pretrained_model
 from llava.utils import disable_torch_init
 
-DEFAULT_IM_END_TOKEN = "</image>"
-DEFAULT_IM_START_TOKEN = "<image>"
-
 def image_parser(args):
     out = args.image_file.split(args.sep)
     return out

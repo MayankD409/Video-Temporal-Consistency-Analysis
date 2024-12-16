@@ -100,7 +100,6 @@ dependencies:
   - libxml2=2.13.5=h8d12d68_1
   - libzlib=1.3.1=hb9d3cd8_2
   - llvm-openmp=19.1.5=h024ca30_0
-  - markupsafe=3.0.2=py39h9399b63_1
   - mkl=2024.2.2=ha957f24_16
   - mpc=1.3.1=h24ddda3_1
   - mpfr=4.2.1=h90cbb55_3
@@ -115,7 +114,6 @@ dependencies:
   - openssl=3.4.0=hb9d3cd8_0
   - pango=1.54.0=h3a902e7_3
   - pcre2=10.44=hba22ea6_2
-  - pillow=11.0.0=py39h538c539_0
   - pip=24.3.1=pyh8b19718_0
   - pixman=0.44.2=h29eaf8c_0
   - pthread-stubs=0.4=hb9d3cd8_1002
@@ -123,8 +121,6 @@ dependencies:
   - python=3.9.21=h9c0c6dc_1_cpython
   - python_abi=3.9=5_cp39
   - readline=8.2=h8228510_1
-  - sentencepiece=0.2.0=hf3d152e_9
-  - sentencepiece-python=0.2.0=py39h02f75f8_9
   - sentencepiece-spm=0.2.0=h413892a_9
   - setuptools=75.6.0=pyhff2d567_1
   - sleef=3.7=h1b44611_2
@@ -151,16 +147,19 @@ dependencies:
   - xorg-libxrender=0.9.11=hb9d3cd8_2
   - zstd=1.5.6=ha6fb4c9_0
   - pip:
-      - accelerate==1.2.1
+      - accelerate==0.26.0
+      - aiofiles==23.2.1
       - aiohappyeyeballs==2.4.4
       - aiohttp==3.11.10
       - aiosignal==1.3.2
+      - altair==5.5.0
       - annotated-types==0.7.0
       - anthropic==0.40.0
       - anyio==4.7.0
       - async-timeout==5.0.1
       - attrs==24.2.0
       - av==14.0.1
+      - bitsandbytes==0.45.0
       - blis==1.0.2
       - cachetools==5.5.0
       - catalogue==2.0.10
@@ -169,14 +168,21 @@ dependencies:
       - click==8.1.7
       - cloudpathlib==0.20.0
       - confection==0.1.5
+      - contourpy==1.3.0
+      - cycler==0.12.1
       - cymem==2.0.10
       - datasets==3.2.0
+      - decorator==4.4.2
       - decord==0.6.0
       - dill==0.3.8
       - distro==1.9.0
-      - einops==0.8.0
+      - einops==0.6.1
+      - einops-exts==0.0.4
       - exceptiongroup==1.2.2
+      - fastapi==0.115.6
+      - ffmpy==0.4.0
       - flash-attn==2.7.2.post1
+      - fonttools==4.55.3
       - frozenlist==1.5.0
       - fsspec==2024.9.0
       - google-ai-generativelanguage==0.6.10
@@ -186,25 +192,41 @@ dependencies:
       - google-auth-httplib2==0.2.0
       - google-generativeai==0.8.3
       - googleapis-common-protos==1.66.0
+      - gradio==4.16.0
+      - gradio-client==0.8.1
       - grpcio==1.68.1
       - grpcio-status==1.68.1
       - h11==0.14.0
-      - httpcore==1.0.7
+      - httpcore==0.17.3
       - httplib2==0.22.0
-      - httpx==0.28.1
+      - httpx==0.24.0
       - huggingface-hub==0.26.5
       - idna==3.10
+      - imageio==2.36.1
+      - imageio-ffmpeg==0.5.1
+      - importlib-resources==6.4.5
       - inquirerpy==0.3.4
       - jiter==0.8.2
+      - joblib==1.4.2
+      - jsonschema==4.23.0
+      - jsonschema-specifications==2024.10.1
+      - kiwisolver==1.4.7
       - langcodes==3.5.0
       - language-data==1.3.0
+      - latex2mathml==3.77.0
       - lightning-utilities==0.11.9
+      - llava==1.2.2.post1
       - marisa-trie==1.2.1
       - markdown-it-py==3.0.0
+      - markdown2==2.5.2
+      - markupsafe==2.1.5
+      - matplotlib==3.9.4
       - mdurl==0.1.2
+      - moviepy==1.0.3
       - multidict==6.1.0
       - multiprocess==0.70.16
       - murmurhash==1.0.11
+      - narwhals==1.18.4
       - numpy==1.26.4
       - nvidia-cublas-cu12==12.1.3.1
       - nvidia-cuda-cupti-cu12==12.1.105
@@ -220,36 +242,49 @@ dependencies:
       - nvidia-nvtx-cu12==12.1.105
       - openai==1.57.4
       - opencv-python==4.10.0.84
+      - orjson==3.10.12
       - packaging==24.2
       - pandas==2.2.3
       - peft==0.10.0
       - pfzy==0.3.4
+      - pillow==10.4.0
       - preshed==3.0.9
+      - proglog==0.1.10
       - prompt-toolkit==3.0.48
       - propcache==0.2.1
       - proto-plus==1.25.0
-      - protobuf==5.29.1
+      - protobuf==3.20.3
       - psutil==6.1.0
       - pyarrow==13.0.0
       - pyasn1==0.6.1
       - pyasn1-modules==0.4.1
       - pydantic==2.10.3
       - pydantic-core==2.27.1
+      - pydub==0.25.1
       - pygments==2.18.0
       - pyparsing==3.2.0
       - pysubs2==1.7.2
       - python-dateutil==2.9.0.post0
       - python-dotenv==1.0.1
+      - python-multipart==0.0.19
       - pytz==2024.2
       - pyyaml==6.0.2
       - qwen-vl-utils==0.0.8
+      - referencing==0.35.1
       - regex==2024.11.6
       - reka-api==2.0.0
       - requests==2.32.3
       - rich==13.9.4
+      - rpds-py==0.22.3
       - rsa==4.9
+      - ruff==0.8.3
       - safetensors==0.4.5
+      - scikit-learn==1.2.2
+      - scipy==1.13.1
+      - semantic-version==2.10.0
+      - sentencepiece==0.1.99
       - shellingham==1.5.4
+      - shortuuid==1.0.13
       - six==1.17.0
       - smart-open==7.0.5
       - sniffio==1.3.1
@@ -257,22 +292,30 @@ dependencies:
       - spacy-legacy==3.0.12
       - spacy-loggers==1.0.5
       - srsly==2.5.0
+      - starlette==0.41.3
+      - svgwrite==1.4.3
       - thinc==8.3.2
-      - timm==1.0.12
+      - threadpoolctl==3.5.0
+      - timm==0.6.13
       - tokenizers==0.21.0
-      - torch==2.1.0
+      - tomlkit==0.12.0
+      - torch==2.1.2
       - torchmetrics==1.6.0
-      - torchvision==0.16.0
+      - torchvision==0.16.2
       - transformers==4.48.0.dev0
       - triton==2.1.0
       - typer==0.15.1
       - tzdata==2024.2
       - uritemplate==4.1.1
       - urllib3==2.2.3
+      - uvicorn==0.34.0
       - wasabi==1.1.3
+      - wavedrom==2.0.3.post3
       - wcwidth==0.2.13
       - weasel==0.4.1
+      - websockets==11.0.3
       - wrapt==1.17.0
       - xxhash==3.5.0
       - yarl==1.18.3
+      - zipp==3.21.0
 prefix: /home/mayank/miniconda3/envs/video_vl_env
