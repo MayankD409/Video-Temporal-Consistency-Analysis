@@ -2,53 +2,48 @@ import os
 import sys
 import json
 import logging
+import numpy as np
+import av
 from tqdm import tqdm
-
 import torch
+
+from transformers import VideoLlavaProcessor, VideoLlavaForConditionalGeneration
 
 from generate_lib.construct_prompt import construct_prompt
 from generate_lib.constant import GENERATION_TEMPERATURE, MAX_TOKENS
 
-
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Video_LLaVA'))
-
-
-from videollava.constants import IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN
-from videollava.conversation import conv_templates, SeparatorStyle
-from videollava.model.builder import load_pretrained_model
-from videollava.utils import disable_torch_init
-from videollava.mm_utils import tokenizer_image_token, get_model_name_from_path, KeywordsStoppingCriteria
-
-
-
+def read_video_pyav(container, indices):
+    frames = []
+    container.seek(0)
+    start_index = indices[0]
+    end_index = indices[-1]
+    for i, frame in enumerate(container.decode(video=0)):
+        if i > end_index:
+            break
+        if i >= start_index and i in indices:
+            frames.append(frame)
+    return np.stack([x.to_ndarray(format="rgb24") for x in frames])
 
 def generate_response(model_name: str, 
                       queries: list,
                       total_frames: int,
-                      output_dir: str):
+                      output_dir: str,
+                      shuffle: bool = False):
 
     logging.info(f"Model: {model_name}")
     logging.info(f"Model {model_name} has a default total frame number of 8.")
+    # If model is downloaded locally
+    model_path = f"./pretrained/{model_name}"
 
-    disable_torch_init()
-    model_path = os.path.join("./pretrained", model_name)
-    
-    load_4bit, load_8bit = False, False      # need to fix llava_arch.py LlavaMetaForCausalLM encode_videos to use non-quantized/8 bit
-
-    device = 'cuda'
-    cache_dir = 'cache_dir'
-
-    tokenizer, model, processor, _ = load_pretrained_model(
-        model_path, 
-        None, 
-        model_name, 
-        load_8bit, 
-        load_4bit, 
-        device=device, 
-        cache_dir=cache_dir
+    model = VideoLlavaForConditionalGeneration.from_pretrained(
+        "LanguageBind/Video-LLaVA-7B-hf", 
+        device_map="auto",
+        torch_dtype=torch.float16
     )
-    video_processor = processor['video']
-    conv_mode = "llava_v1"
+    processor = VideoLlavaProcessor.from_pretrained("LanguageBind/Video-LLaVA-7B-hf")
+    # processor.patch_size = model.config.vision_config.patch_size
+    # processor.vision_feature_select_strategy = "default"
+    # processor.num_additional_image_tokens = 1
 
     for query in tqdm(queries):
         id_ = query['id']
@@ -58,43 +53,33 @@ def generate_response(model_name: str,
         optionized_list = [f"{chr(65 + i)}. {option}" for i, option in enumerate(options)]
         gt = optionized_list[query['answer']]
 
-        
-        
-        inp, all_choices, index2ans = construct_prompt(question=question,
-                                                          options=options,
-                                                          num_frames=total_frames)
+        inp, all_choices, index2ans = construct_prompt(
+            question=question,
+            options=options,
+            num_frames=total_frames
+        )
 
-        video_tensor = video_processor(video_path, return_tensors='pt')['pixel_values']
-        if type(video_tensor) is list:
-            tensor = [video.to(model.device, dtype=torch.float16) for video in video_tensor]
-        else:
-            tensor = video_tensor.to(model.device, dtype=torch.float16)
+        container = av.open(video_path)
+        total_video_frames = container.streams.video[0].frames
+        indices = np.arange(0, total_video_frames, total_video_frames / total_frames).astype(int)
+        clip = read_video_pyav(container, indices)
 
-        # print(f"{roles[1]}: {inp}")
-        conv = conv_templates[conv_mode].copy()
-        roles = conv.roles
-        inp = ' '.join([DEFAULT_IMAGE_TOKEN] * model.get_video_tower().config.num_frames) + '\n' + inp
-        print(f"{roles[1]}: {inp}")
-        conv.append_message(conv.roles[0], inp)
-        conv.append_message(conv.roles[1], None)
-        prompt = conv.get_prompt()
-        input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).cuda()
-        stop_str = conv.sep if conv.sep_style != SeparatorStyle.TWO else conv.sep2
-        keywords = [stop_str]
-        stopping_criteria = KeywordsStoppingCriteria(keywords, tokenizer, input_ids)
+        prompt = f"USER: {inp} ASSISTANT:"
+        inputs = processor(text=prompt, videos=clip, return_tensors="pt").to(model.device)
 
-        with torch.inference_mode():
-            output_ids = model.generate(
-                input_ids,
-                images=tensor,
-                do_sample=False,
-                temperature=GENERATION_TEMPERATURE,
-                max_new_tokens= MAX_TOKENS,
-                use_cache=True,
-                stopping_criteria=[stopping_criteria])
+        generate_ids = model.generate(
+            **inputs, 
+            max_length=MAX_TOKENS, 
+            do_sample=False,
+            temperature=GENERATION_TEMPERATURE
+        )
 
-        response = tokenizer.decode(output_ids[0, input_ids.shape[1]:]).strip()
-        
+        response = processor.batch_decode(
+            generate_ids, 
+            skip_special_tokens=True, 
+            clean_up_tokenization_spaces=False
+        )[0].replace(prompt, "").strip()
+
         with open(output_dir, "a") as f:
             f.write(json.dumps(
                 {

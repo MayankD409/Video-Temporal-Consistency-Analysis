@@ -20,8 +20,6 @@ from generate_lib.constant import GENERATION_TEMPERATURE, GENERATION_TOP_P, MAX_
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'VILA'))
 
 from llava.constants import (
-    DEFAULT_IM_END_TOKEN,
-    DEFAULT_IM_START_TOKEN,
     DEFAULT_IMAGE_TOKEN,
     IMAGE_PLACEHOLDER,
     IMAGE_TOKEN_INDEX,
@@ -31,6 +29,8 @@ from llava.mm_utils import KeywordsStoppingCriteria, get_model_name_from_path, p
 from llava.model.builder import load_pretrained_model
 from llava.utils import disable_torch_init
 
+DEFAULT_IM_END_TOKEN = "</image>"
+DEFAULT_IM_START_TOKEN = "<image>"
 
 def image_parser(args):
     out = args.image_file.split(args.sep)
@@ -153,7 +153,8 @@ def eval_model(args):
 def generate_response(model_name: str, 
                       queries: list,
                       total_frames: int,
-                      output_dir: str):
+                      output_dir: str,
+                      shuffle: bool = False):
     
     logging.info(f"Model: {model_name}")
     

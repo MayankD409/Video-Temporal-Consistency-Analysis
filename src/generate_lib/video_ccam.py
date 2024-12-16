@@ -14,7 +14,8 @@ logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 def generate_response(model_name: str, 
                       queries: list,
                       total_frames: int,
-                      output_dir: str):
+                      output_dir: str,
+                      shuffle: bool = False):
 
     logging.info(f"Model: {model_name}")
 

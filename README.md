@@ -49,7 +49,7 @@ Below are the commands to setup and run the specific models:
 python src/evaluate.py --model $model_name --reasoning_type ALL --demonstration_type ALL --total_frames $total_frames
 ```
 
-### InternVL2
+### InternVL2 (WORKING in LAPTOP)
 
 First download the pretrained model:
 ```bash
@@ -59,10 +59,10 @@ huggingface-cli download --resume-download --local-dir-use-symlinks False OpenGV
 
 ```bash
 # For InternVL-1B
-python src/evaluate.py --model InternVL-1B --reasoning_type ALL --demonstration_type ALL --total_frames 8
+python src/evaluate.py --model InternVL2-1B --reasoning_type ALL --demonstration_type ALL --total_frames 8
 ```
-
-### Gemini
+ 
+### Gemini (WORKING in LAPTOP)
 ```bash
 # For gemini-1.5-flash
 python src/evaluate.py --model gemini-1.5-flash --reasoning_type ALL
@@ -70,17 +70,30 @@ python src/evaluate.py --model gemini-1.5-flash --reasoning_type ALL
 python src/evaluate.py --model gemini-1.5-pro --reasoning_type ALL
 ```
 
-### GPT
+## VCCAM (Working but need Nexus)
+
+Make sure you have cloned the github repo in the generate_lib folder. Otherwise here is the command:
 ```bash
-# For gpt-4-turbo-preview
-python src/evaluate.py --model gpt-4-turbo-preview --reasoning_type ALL --total_frames 8
-# For gpt-4o
-python src/evaluate.py --model gpt-4o --reasoning_type ALL --total_frames 8
-# For gpt-4o-mini
-python src/evaluate.py --model gpt-4o-mini --reasoning_type ALL --total_frames 8
+git clone git@github.com:QQ-MM/Video-CCAM.git      
 ```
 
-### Qwen2-VL
+Download the pretrained model:
+```bash
+cd pretrained
+# 4B
+huggingface-cli download --resume-download --local-dir-use-symlinks False JaronTHU/Video-CCAM-4B-v1.1 --local-dir Video-CCAM-4B-v1.1
+# Phi-3-mini
+huggingface-cli download --resume-download --local-dir-use-symlinks False microsoft/Phi-3-mini-4k-instruct --local-dir Phi-3-mini-4k-instruct
+# vision encoder
+huggingface-cli download --resume-download --local-dir-use-symlinks False google/siglip-so400m-patch14-384 --local-dir siglip-so400m-patch14-384
+```
+
+Run the evaluation script:
+```bash
+python src/evaluate.py --model Video-CCAM-4B-v1.1 --reasoning_type ALL --total_frames 8
+```
+
+### Qwen2-VL (Working but need Nexus)
 
 The code of Qwen2-VL has been in the latest Hugging face transformers and we advise you to build from source with command:
 ```bash
@@ -98,27 +111,7 @@ huggingface-cli download --resume-download --local-dir-use-symlinks False Qwen/Q
 python src/evaluate.py --model Qwen2-VL-2B-Instruct --reasoning_type ALL --demonstration_type ALL --total_frames 8
 ```
 
-### Video-Llava
-
-Make sure you have cloned the github repo in the generate_lib folder. Otherwise here is the command:
-```bash
-git clone git@github.com:PKU-YuanGroup/Video-LLaVA.git
-# Rename it
-mv Video-LLaVA Video_LLaVA
-```
-
-Download the pretrained model:
-```bash
-cd pretrained
-huggingface-cli download --resume-download --local-dir-use-symlinks False LanguageBind/Video-LLaVA-7B --local-dir Video-LLaVA-7B
-```
-
-Run the evaluation script:
-```bash
-python src/evaluate.py --model Video-LLaVA-7B --reasoning_type ALL 
-```
-
-### Video-Llama
+### Video-Llama (Working but need Nexus)
 
 Make sure you have cloned the github repo in the generate_lib folder. Otherwise here is the command:
 ```bash
@@ -136,3 +129,60 @@ Run the evaluation script:
 ```bash
 python src/evaluate.py --model VideoLLaMA2-7B --reasoning_type ALL --total_frames 16
 ```
+
+### GPT (WORKING but need to buy credits)
+```bash
+# For gpt-4-turbo-preview
+python src/evaluate.py --model gpt-4-turbo-preview --reasoning_type ALL --total_frames 8
+# For gpt-4o
+python src/evaluate.py --model gpt-4o --reasoning_type ALL --total_frames 8
+# For gpt-4o-mini
+python src/evaluate.py --model gpt-4o-mini --reasoning_type ALL --total_frames 8
+```
+
+### Reka (WORKING but need to buy credits)
+
+Make sure to add api-key for reka in .env
+```bash
+# For reka-core-20240501
+python src/evaluate.py --model reka-core-20240501 --reasoning_type ALL
+# For reka-flash-20240226
+python src/evaluate.py --model reka-flash-20240226 --reasoning_type ALL
+# For reka-edge-20240208
+python src/evaluate.py --model reka-edge-20240208--reasoning_type ALL
+```
+
+### Video-Llava (Not working but fixable)
+
+Download the pretrained model:
+```bash
+cd pretrained
+huggingface-cli download --resume-download --local-dir-use-symlinks False LanguageBind/Video-LLaVA-7B-hf --local-dir Video-LLaVA-7B-hf
+```
+
+Run the evaluation script:
+```bash
+python src/evaluate.py --model Video-LLaVA-7B-hf --reasoning_type ALL 
+```
+
+### VILA (Not Working yet)
+
+Make sure you have cloned the github repo in the generate_lib folder. Otherwise here is the command:
+```bash
+git clone git@github.com:NVlabs/VILA.git
+```
+
+Download the pretrained model:
+```bash
+cd pretrained
+# video LLaMA 2 7B
+huggingface-cli download --resume-download --local-dir-use-symlinks Efficient-Large-Model/VILA1.5-13b --local-dir VILA1.5-13b
+```
+
+Run the evaluation script:
+```bash
+python src/evaluate.py --model VILA1.5-13B --reasoning_type ALL --total_frames 8
+```
+
+
+

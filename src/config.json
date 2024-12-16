@@ -42,14 +42,12 @@
             "llava-onevision-qwen2-72b-ov",
             "llava-onevision-qwen2-7b-ov"
         ],
-        "internvideo": [
-            "InternVideo2-Chat-8B"
-        ],
         "phi": [
             "Phi-3.5-vision-instruct"
         ],
         "video_llava": [
-            "Video-LLaVA-7B"
+            "Video-LLaVA-7B",
+            "Video-LLaVA-7B-hf"
         ],
         "qwen": [
             "Qwen2-VL-2B-Instruct",
