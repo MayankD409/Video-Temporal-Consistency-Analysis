@@ -4,7 +4,7 @@
 
 You need to create a conda virtual environment first:
 ```bash
-conda create -f environment.yml
+conda env create -f environment.yml
 conda activate video_vl_env
 ```
 
