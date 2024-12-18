@@ -2,7 +2,25 @@
 
 ## Prerequisits
 
-You need to create a conda virtual environment first:
+Setup the python virtual environment follow these commands (for linux):
+
+```bash
+# Go to the root directory
+python3 -m venv <env_name>
+source <env_name>/bin/activate
+pip install -r requirements.txt
+```
+
+Due to dependency isse after installing the packages from requirements.txt, install folowing packages:
+```bash
+pip install decord
+pip install numpy==1.26.4
+pip install wheel
+pip install flash-attn
+pip install git+https://github.com/huggingface/transformers
+```
+
+You can also create a conda virtual environment:
 ```bash
 conda env create -f environment.yml
 conda activate video_vl_env
@@ -184,20 +202,6 @@ Run the evaluation script:
 python src/evaluate.py --model VILA1.5-13B --reasoning_type ALL --total_frames 8
 ```
 
-If you are setting up python virtual environment follow these commands (for linux):
 
-```bash
-# Go to the root directory
-python3 -m venv <env_name>
-source <env_name>/bin/activate
-pip install -r requirements.txt
-```
-Due to dependency isse after installing the packages from requirements.txt, install folowing packages:
-```bash
-pip install decord
-pip install numpy==1.26.4
-pip install wheel
-pip install flash-attn
-pip install git+https://github.com/huggingface/transformers
 ```
 
