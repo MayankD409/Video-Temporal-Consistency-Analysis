@@ -26,31 +26,35 @@ conda env create -f environment.yml
 conda activate video_vl_env
 ```
 
+**Clone this repository**
+```bash
+git clone https://github.com/MayankD409/Video-Temporal-Consistency-Analysis.git
+cd Video-Temporal-Consistency-Analysis
+```
+
+Download the [videos](https://drive.google.com/file/d/1-dNt9bZcp6C3RXuGoAO3EBgWkAHg8NWR/view?usp=drive_link) and unzip into the /Video-Temporal-Consistency-Analysis directory
+
+<details>
+<summary>After downloading the videos, your file structure should look like this.</summary>
+
+```
+.
+├── data/
+├── src/
+├── videos/
+│   ├── human/
+│   ├── object/
+│   ├── simulated/
+
+```
+</details>
+
+
 Create a .env file in the root directory with the following format:
 ```
 OPENAI_API_KEY="your_openai_api_key"
 GEMINI_API_KEY="your_gemini_api_key"
-ANTHROPIC_API_KEY="your_anthropic_api_key"
 REKA_API_KEY="your_reka_api_key"
-```
-
-**Note**: To use `Video-CCAM`, `LLaVA-NeXT`, `Video-LLaVA`, `VideoLLaMA2`,  and `VILA`, follow additional instructions below. <br>
-Clone their repositories into the `./src/generate_lib/` directory. Run the following commands:
-```bash
-cd ./src/generate_lib
-
-git clone git@github.com:QQ-MM/Video-CCAM.git             # Video-CCAM
-git clone git@github.com:LLaVA-VL/LLaVA-NeXT.git          # LLaVA-NeXT
-git clone git@github.com:DAMO-NLP-SG/VideoLLaMA2.git      # VideoLLaMA2
-git clone git@github.com:PKU-YuanGroup/Video-LLaVA.git    # Video-LLaVA
-git clone git@github.com:NVlabs/VILA.git                  # VILA
-```
-
-After cloning, rename the directories by replacing hyphens (`-`) with underscores (`_`):
-```bash
-mv Video-CCAM Video_CCAM
-mv LLaVA-NeXT LLaVA_NeXT
-mv Video-LLaVA Video_LLaVA
 ```
 
 Create a pretrained folder to download pretrained model:
