@@ -32,7 +32,7 @@ git clone https://github.com/MayankD409/Video-Temporal-Consistency-Analysis.git
 cd Video-Temporal-Consistency-Analysis
 ```
 
-Download the [videos](https://drive.google.com/file/d/1-dNt9bZcp6C3RXuGoAO3EBgWkAHg8NWR/view?usp=drive_link) and unzip into the /Video-Temporal-Consistency-Analysis directory
+Download the [videos](https://drive.google.com/file/d/1Ry4QIpVUx9EcQqTdGYSqtp_WWBT8vsbw/view?usp=sharing) and unzip into the /Video-Temporal-Consistency-Analysis directory
 
 <details>
 <summary>After downloading the videos, your file structure should look like this.</summary>
